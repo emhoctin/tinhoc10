@@ -1,4 +1,3 @@
-
 export enum GameState {
     START = 'START',
     PREPARING = 'PREPARING',
@@ -15,7 +14,8 @@ export interface Question {
     correctAnswer: string | string[];
     topic: string;
     difficulty: number;
-    type: 'single' | 'multiple';
+    // FIX: Add 'true-false-set' to the Question type to allow for a new question format. This fixes errors across multiple files.
+    type: 'single' | 'multiple' | 'true-false-set';
 }
 
 export interface ScoreRecord {

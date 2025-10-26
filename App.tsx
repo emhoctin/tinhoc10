@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { GameState, Question } from './types';
 import { questions } from './constants/questions';
@@ -19,9 +18,8 @@ const App: React.FC = () => {
 
     const shuffleArray = <T,>(array: T[]): T[] => [...array].sort(() => Math.random() - 0.5);
     
-    // Corrected question counts to match the available data
-    const QUESTIONS_SINGLE = 14;
-    const QUESTIONS_MULTIPLE = 4;
+    const QUESTIONS_TRAC_NGHIEM = 20;
+    const QUESTIONS_DUNG_SAI = 5;
 
     const handleStart = useCallback((name: string, cls: string) => {
       setFullName(name);
@@ -38,11 +36,14 @@ const App: React.FC = () => {
 
     const activeQuestions = useMemo(() => {
       if (gameState !== GameState.QUIZ && gameState !== GameState.END) return [];
-      const single = questions.filter(q => q.type === 'single');
-      const multiple = questions.filter(q => q.type === 'multiple');
-      const roundSingles = shuffleArray(single).slice(0, QUESTIONS_SINGLE);
-      const roundMultiples = shuffleArray(multiple).slice(0, QUESTIONS_MULTIPLE);
-      return shuffleArray([...roundSingles, ...roundMultiples]);
+      
+      const tracNghiemQuestions = questions.filter(q => q.type === 'single' || q.type === 'multiple');
+      const dungSaiQuestions = questions.filter(q => q.type === 'true-false-set');
+
+      const roundTracNghiem = shuffleArray(tracNghiemQuestions).slice(0, QUESTIONS_TRAC_NGHIEM);
+      const roundDungSai = shuffleArray(dungSaiQuestions).slice(0, QUESTIONS_DUNG_SAI);
+      
+      return shuffleArray([...roundTracNghiem, ...roundDungSai]);
     }, [gameState]);
 
     const handleQuizEnd = useCallback((score: number, count: number) => {

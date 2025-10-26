@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useMemo } from 'react';
 import { getAllRecords } from '../services/gameService';
 import { ScoreRecord } from '../types';
@@ -47,32 +46,32 @@ const TeacherDashboard: React.FC<TeacherDashboardProps> = ({ onBack }) => {
     }
 
     return (
-         <div className="flex flex-col items-center justify-center min-h-screen bg-slate-100 p-4 animate-fade-in">
-            <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-4xl">
-                <h2 className="text-3xl font-bold text-blue-600 mb-6 text-center">Teacher Dashboard</h2>
-                <div className="overflow-x-auto">
+         <div className="flex flex-col items-center min-h-screen p-4 animate-fade-in my-10">
+            <div className="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-4xl">
+                <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-indigo-500 mb-6 text-center pb-2">Teacher Dashboard</h2>
+                <div className="overflow-x-auto rounded-lg border border-slate-200">
                     <table className="w-full text-left table-auto">
-                        <thead className="bg-slate-100 text-slate-600">
+                        <thead className="bg-slate-100 text-slate-700 font-semibold">
                             <tr>
-                                <th className="p-3 cursor-pointer" onClick={() => requestSort('fullName')}>Họ và tên {getSortIndicator('fullName')}</th>
-                                <th className="p-3 cursor-pointer" onClick={() => requestSort('className')}>Lớp {getSortIndicator('className')}</th>
-                                <th className="p-3 cursor-pointer" onClick={() => requestSort('score')}>Điểm {getSortIndicator('score')}</th>
-                                <th className="p-3 cursor-pointer" onClick={() => requestSort('timestamp')}>Thời gian {getSortIndicator('timestamp')}</th>
+                                <th className="p-4 cursor-pointer hover:bg-slate-200 transition-colors" onClick={() => requestSort('fullName')}>Họ và tên {getSortIndicator('fullName')}</th>
+                                <th className="p-4 cursor-pointer hover:bg-slate-200 transition-colors" onClick={() => requestSort('className')}>Lớp {getSortIndicator('className')}</th>
+                                <th className="p-4 cursor-pointer hover:bg-slate-200 transition-colors" onClick={() => requestSort('score')}>Điểm {getSortIndicator('score')}</th>
+                                <th className="p-4 cursor-pointer hover:bg-slate-200 transition-colors" onClick={() => requestSort('timestamp')}>Thời gian {getSortIndicator('timestamp')}</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody className="divide-y divide-slate-200">
                             {sortedRecords.map((record, index) => (
-                                <tr key={index} className="border-b border-slate-200 hover:bg-slate-50">
-                                    <td className="p-3">{record.fullName}</td>
-                                    <td className="p-3">{record.className}</td>
-                                    <td className="p-3">{record.score}</td>
-                                    <td className="p-3">{new Date(record.timestamp).toLocaleString('vi-VN')}</td>
+                                <tr key={index} className="hover:bg-sky-50 transition-colors">
+                                    <td className="p-4">{record.fullName}</td>
+                                    <td className="p-4">{record.className}</td>
+                                    <td className="p-4 font-semibold text-indigo-600">{record.score}</td>
+                                    <td className="p-4 text-sm text-slate-600">{new Date(record.timestamp).toLocaleString('vi-VN')}</td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
                 </div>
-                <button onClick={onBack} className="mt-8 w-full bg-transparent border-2 border-slate-300 text-slate-600 hover:bg-slate-200 font-bold py-2 px-6 rounded-full transition-colors">Quay lại</button>
+                <button onClick={onBack} className="mt-8 w-full bg-transparent border-2 border-slate-300 text-slate-600 hover:bg-slate-100 hover:border-slate-400 font-bold py-2 px-6 rounded-full transition-colors">Quay lại</button>
             </div>
          </div>
     );
