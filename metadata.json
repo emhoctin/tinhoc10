@@ -1,4 +1,5 @@
 {
   "name": "Web Game Ôn Tập Tin Học 10",
-  "description": "An adaptive quiz game to help 10th-grade students review computer science concepts, with AI-powered explanations."
+  "description": "An interactive quiz game for 10th-grade computer science students, featuring adaptive questions, leaderboards, and AI-powered explanations.",
+  "requestFramePermissions": []
 }

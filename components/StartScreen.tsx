@@ -1,0 +1,47 @@
+
+import React, { useState, useEffect } from 'react';
+import { getTotalXP } from '../services/gameService';
+
+interface StartScreenProps {
+    onStart: (fullName: string, className: string) => void;
+    onViewLeaderboard: () => void;
+    onViewDashboard: () => void;
+}
+
+const StartScreen: React.FC<StartScreenProps> = ({ onStart, onViewLeaderboard, onViewDashboard }) => {
+    const [fullName, setFullName] = useState('');
+    const [className, setClassName] = useState('');
+    const [totalXP, setTotalXP] = useState(0);
+
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            if (fullName.trim() && className.trim()) {
+                setTotalXP(getTotalXP(fullName, className));
+            } else {
+                setTotalXP(0);
+            }
+        }, 300);
+        return () => clearTimeout(handler);
+    }, [fullName, className]);
+
+    const canStart = fullName.trim().length > 0 && className.trim().length > 0;
+
+    return (
+        <div className="flex flex-col items-center justify-center min-h-screen bg-slate-100 p-4 text-center animate-fade-in">
+            <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
+                <h1 className="text-4xl md:text-5xl font-bold text-blue-600 mb-2">Game Tin Học 10</h1>
+                <p className="text-slate-500 mb-8">Cùng ôn tập kiến thức nào!</p>
+                <div className="space-y-4">
+                    <input type="text" placeholder="Nhập họ và tên..." value={fullName} onChange={e => setFullName(e.target.value)} className="w-full px-5 py-3 bg-slate-100 border-2 border-transparent focus:border-blue-500 rounded-full text-center outline-none transition-all"/>
+                    <input type="text" placeholder="Nhập lớp..." value={className} onChange={e => setClassName(e.target.value)} className="w-full px-5 py-3 bg-slate-100 border-2 border-transparent focus:border-blue-500 rounded-full text-center outline-none transition-all"/>
+                </div>
+                {totalXP > 0 && <p className="text-blue-600 mt-4 font-semibold">Điểm tích lũy của bạn: {totalXP} XP</p>}
+                <button onClick={() => onStart(fullName, className)} disabled={!canStart} className="mt-8 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full text-xl disabled:bg-slate-400 disabled:cursor-not-allowed transform hover:scale-105 transition-transform">Bắt đầu lượt mới</button>
+                <button onClick={onViewLeaderboard} className="mt-4 w-full bg-transparent border-2 border-slate-300 text-slate-600 hover:bg-slate-200 font-bold py-2 px-6 rounded-full transition-colors">Bảng xếp hạng</button>
+            </div>
+            <div className="absolute bottom-4 right-4"><button onClick={onViewDashboard} className="text-xs text-slate-400 hover:text-blue-600 transition-colors">Teacher Dashboard</button></div>
+        </div>
+    );
+};
+
+export default StartScreen;
