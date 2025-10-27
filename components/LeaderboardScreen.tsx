@@ -22,7 +22,7 @@ const LeaderboardScreen: React.FC<LeaderboardScreenProps> = ({ onBack }) => {
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen p-4 animate-fade-in">
-            <div className="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-lg">
+            <div className="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-3xl">
                 <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-indigo-500 mb-6 text-center pb-2">Bảng Xếp Hạng Tuần</h2>
                 <ul className="space-y-3">
                     {leaderboard.length > 0 ? leaderboard.map((player, index) => (

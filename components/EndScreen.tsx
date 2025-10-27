@@ -16,7 +16,7 @@ const EndScreen: React.FC<EndScreenProps> = ({ score, correctCount, totalQuestio
     
     return (
         <div className="flex flex-col items-center justify-center min-h-screen p-4 text-center animate-fade-in">
-            <div className="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-md">
+            <div className="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-2xl">
                 <h2 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-indigo-500 mb-2 pb-2">Hoàn thành!</h2>
                 <p className="text-slate-500 mb-6">Bạn đã kết thúc lượt chơi.</p>
                 <div className="bg-gradient-to-br from-sky-50 to-indigo-100 p-6 rounded-2xl mb-8">

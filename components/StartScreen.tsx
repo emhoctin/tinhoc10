@@ -27,8 +27,8 @@ const StartScreen: React.FC<StartScreenProps> = ({ onStart, onViewLeaderboard, o
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen p-4 text-center animate-fade-in">
-            <div className="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-md">
-                <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-indigo-500 mb-2 pb-2">Kho Tàng Tri Thức Số</h1>
+            <div className="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-2xl">
+                <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-indigo-500 mb-2 pb-2">Kết Nối Tri Thức Tin 10</h1>
                 <p className="text-slate-500 mb-8">Game ôn tập kiến thức Tin học 10</p>
                 <div className="space-y-4">
                     <input type="text" placeholder="Nhập họ và tên..." value={fullName} onChange={e => setFullName(e.target.value)} className="w-full px-5 py-3 bg-slate-50 border-2 border-slate-200 focus:border-sky-500 focus:ring-2 focus:ring-sky-200 rounded-full text-center outline-none transition-all"/>

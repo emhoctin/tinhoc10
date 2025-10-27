@@ -39,10 +39,20 @@ const QuizScreen: React.FC<QuizScreenProps> = ({ questions, onQuizEnd }) => {
         }
         setSelectedAnswers(newAnswers);
     };
+
+    const handleNextQuestion = () => {
+        if (currentQIndex < questions.length - 1) {
+            setCurrentQIndex(prev => prev + 1);
+            setSelectedAnswers(new Set());
+            setIsAnswered(false);
+        } else {
+            onQuizEnd(score, correctCount);
+        }
+    };
     
     const handleSubmit = () => {
         if (isAnswered) return;
-        setIsAnswered(true);
+        
         let questionScore = 0;
         let isFullyCorrect = false;
 
@@ -52,7 +62,7 @@ const QuizScreen: React.FC<QuizScreenProps> = ({ questions, onQuizEnd }) => {
                 questionScore = 10;
                 isFullyCorrect = true;
             }
-        } else { // multiple
+        } else { // multiple or true-false-set
             const correctAnswers = new Set(currentQuestion.correctAnswer as string[]);
             let correctSelections = 0;
             selectedAnswers.forEach(ans => {
@@ -66,16 +76,7 @@ const QuizScreen: React.FC<QuizScreenProps> = ({ questions, onQuizEnd }) => {
 
         setScore(prev => prev + questionScore);
         if (isFullyCorrect) setCorrectCount(prev => prev + 1);
-
-        setTimeout(() => {
-            if (currentQIndex < questions.length - 1) {
-                setCurrentQIndex(prev => prev + 1);
-                setSelectedAnswers(new Set());
-                setIsAnswered(false);
-            } else {
-                onQuizEnd(score + questionScore, isFullyCorrect ? correctCount + 1 : correctCount);
-            }
-        }, 2000);
+        setIsAnswered(true);
     };
 
     const handleGetExplanation = async () => {
@@ -92,7 +93,7 @@ const QuizScreen: React.FC<QuizScreenProps> = ({ questions, onQuizEnd }) => {
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen p-4 animate-fade-in">
-            <div className="w-full max-w-3xl bg-white p-6 md:p-8 rounded-3xl shadow-2xl">
+            <div className="w-full max-w-5xl bg-white p-6 md:p-8 rounded-3xl shadow-2xl">
                 <div className="mb-4">
                     <div className="flex justify-between items-center mb-2 text-slate-500">
                         <span>Câu hỏi {currentQIndex + 1} / {questions.length}</span>
@@ -101,7 +102,9 @@ const QuizScreen: React.FC<QuizScreenProps> = ({ questions, onQuizEnd }) => {
                     <div className="w-full bg-slate-200 rounded-full h-3"><div className="bg-gradient-to-r from-sky-400 to-indigo-500 h-3 rounded-full transition-all duration-500" style={{ width: `${progress}%` }}></div></div>
                 </div>
                 <h2 className="text-xl md:text-2xl font-bold mb-4 text-slate-800">{currentQuestion.question}</h2>
-                <p className="text-sm text-slate-500 mb-6">{currentQuestion.type === 'single' ? 'Chọn một đáp án đúng' : 'Chọn tất cả các đáp án đúng'}</p>
+                <p className={`text-sm font-semibold mb-6 ${currentQuestion.type === 'single' ? 'text-sky-600' : 'text-green-600'}`}>
+                    {currentQuestion.type === 'single' ? 'Chọn một đáp án đúng' : 'Chọn tất cả các đáp án đúng'}
+                </p>
                 
                 <div className="space-y-3">
                     {shuffledOptions.map((option, index) => {
@@ -123,13 +126,19 @@ const QuizScreen: React.FC<QuizScreenProps> = ({ questions, onQuizEnd }) => {
                 </div>
                 
                 <div className="mt-8 flex flex-col sm:flex-row gap-4">
-                   <button onClick={handleSubmit} disabled={selectedAnswers.size === 0 || isAnswered} className="w-full bg-gradient-to-r from-sky-500 to-indigo-500 hover:from-sky-600 hover:to-indigo-600 text-white font-bold py-3 px-8 rounded-full text-lg disabled:bg-slate-400 disabled:cursor-not-allowed transition-all duration-300 shadow-lg disabled:shadow-none">
-                       {isAnswered ? 'Đã trả lời' : 'Xác nhận'}
-                   </button>
-                   {isAnswered && (
-                        <button onClick={handleGetExplanation} className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 px-8 rounded-full text-lg transition-colors shadow-lg hover:shadow-xl">
-                            Xem giải thích AI
-                        </button>
+                   {!isAnswered ? (
+                       <button onClick={handleSubmit} disabled={selectedAnswers.size === 0} className="w-full bg-gradient-to-r from-sky-500 to-indigo-500 hover:from-sky-600 hover:to-indigo-600 text-white font-bold py-3 px-8 rounded-full text-lg disabled:bg-slate-400 disabled:cursor-not-allowed transition-all duration-300 shadow-lg disabled:shadow-none">
+                           Xác nhận
+                       </button>
+                   ) : (
+                        <>
+                            <button onClick={handleGetExplanation} className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 px-8 rounded-full text-lg transition-colors shadow-lg hover:shadow-xl">
+                                Xem giải thích AI
+                            </button>
+                            <button onClick={handleNextQuestion} className="w-full bg-gradient-to-r from-sky-500 to-indigo-500 hover:from-sky-600 hover:to-indigo-600 text-white font-bold py-3 px-8 rounded-full text-lg transition-all duration-300 shadow-lg">
+                                {currentQIndex < questions.length - 1 ? 'Câu tiếp theo' : 'Hoàn thành'}
+                            </button>
+                        </>
                    )}
                 </div>
             </div>
