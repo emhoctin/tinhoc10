@@ -36,9 +36,11 @@ const StartScreen: React.FC<StartScreenProps> = ({ onStart, onViewLeaderboard, o
                 </div>
                 {totalXP > 0 && <p className="text-indigo-600 mt-4 font-semibold">Điểm tích lũy của bạn: {totalXP} XP</p>}
                 <button onClick={() => onStart(fullName, className)} disabled={!canStart} className="mt-8 w-full bg-gradient-to-r from-sky-500 to-indigo-500 hover:from-sky-600 hover:to-indigo-600 text-white font-bold py-3 px-8 rounded-full text-xl disabled:bg-slate-400 disabled:cursor-not-allowed transform hover:scale-105 transition-all duration-300 shadow-lg disabled:shadow-none">Bắt đầu lượt mới</button>
-                <button onClick={onViewLeaderboard} className="mt-4 w-full bg-transparent border-2 border-slate-300 text-slate-600 hover:bg-slate-100 hover:border-slate-400 font-bold py-2 px-6 rounded-full transition-colors">Bảng xếp hạng</button>
+                <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <button onClick={onViewLeaderboard} className="w-full bg-transparent border-2 border-slate-300 text-slate-600 hover:bg-slate-100 hover:border-slate-400 font-bold py-2 px-6 rounded-full transition-colors">Bảng xếp hạng</button>
+                    <button onClick={onViewDashboard} className="w-full bg-transparent border-2 border-indigo-300 text-indigo-600 hover:bg-indigo-100 hover:border-indigo-400 font-bold py-2 px-6 rounded-full transition-colors">Xem điểm</button>
+                </div>
             </div>
-            <div className="absolute bottom-4 right-4"><button onClick={onViewDashboard} className="text-xs text-slate-400 hover:text-indigo-600 transition-colors">Teacher Dashboard</button></div>
         </div>
     );
 };
