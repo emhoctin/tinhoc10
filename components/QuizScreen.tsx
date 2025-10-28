@@ -65,12 +65,24 @@ const QuizScreen: React.FC<QuizScreenProps> = ({ questions, onQuizEnd }) => {
         } else { // multiple or true-false-set
             const correctAnswers = new Set(currentQuestion.correctAnswer as string[]);
             let correctSelections = 0;
+            let incorrectSelections = 0;
+            
             selectedAnswers.forEach(ans => {
                 if (correctAnswers.has(ans)) {
                     correctSelections++;
+                } else {
+                    incorrectSelections++;
                 }
             });
-            questionScore = correctSelections * 10;
+
+            // Penalize for any incorrect selection to prevent guessing
+            if (incorrectSelections > 0) {
+                questionScore = 0;
+            } else {
+                // Award points only for correct selections
+                questionScore = correctSelections * 10;
+            }
+            
             isFullyCorrect = correctSelections === correctAnswers.size && selectedAnswers.size === correctAnswers.size;
         }
 

@@ -8,6 +8,12 @@ interface ExplanationModalProps {
     isLoading: boolean;
 }
 
+// A simple utility to convert **bold** markdown to <strong> tags.
+const createMarkup = (text: string) => {
+    const processedText = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    return { __html: processedText };
+};
+
 const ExplanationModal: React.FC<ExplanationModalProps> = ({ isOpen, onClose, explanation, isLoading }) => {
     if (!isOpen) return null;
     return (
@@ -19,7 +25,14 @@ const ExplanationModal: React.FC<ExplanationModalProps> = ({ isOpen, onClose, ex
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
                     </button>
                 </div>
-                {isLoading ? <div className="flex justify-center py-8"><Loader /></div> : <div className="text-slate-700 whitespace-pre-wrap max-h-[60vh] overflow-y-auto pr-2">{explanation}</div>}
+                {isLoading ? (
+                    <div className="flex justify-center py-8"><Loader /></div>
+                ) : (
+                    <div 
+                        className="text-slate-700 whitespace-pre-wrap max-h-[60vh] overflow-y-auto pr-2 animate-fade-in"
+                        dangerouslySetInnerHTML={createMarkup(explanation)}
+                    />
+                )}
             </div>
         </div>
     );
